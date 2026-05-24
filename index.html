@@ -23,9 +23,16 @@
     --radius: 14px;
   }
 
-  html, body { height: 100%; }
-  body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); height: 100%; overflow-x: hidden; }
-  main { padding: 16px; max-width: 700px; margin: 0 auto; overflow-y: auto; height: calc(100vh - 69px); }
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
 
   header {
     background: var(--surface);
@@ -34,9 +41,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    height: 68px;
+    flex-shrink: 0;
+  }
+
+  main {
+    height: calc(100vh - 68px);
+    overflow-y: auto;
+    padding: 16px;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
   }
 
   .logo { display: flex; align-items: center; gap: 10px; }
@@ -56,14 +71,13 @@
     cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;
   }
   .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; }
-  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-primary:hover { opacity: 0.9; }
   .btn-green { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
   .btn-green:hover { background: rgba(34,197,94,0.25); }
   .btn-red { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
   .btn-red:hover { background: rgba(239,68,68,0.25); }
   .btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: white; }
-  .btn-whatsapp:hover { opacity: 0.9; transform: translateY(-1px); }
-  .btn-ghost { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+  .btn-ghost { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); padding: 10px 14px; }
   .btn-ghost:hover { color: var(--text); border-color: var(--accent); }
   .btn-icon {
     background: none; border: none; cursor: pointer; padding: 6px;
@@ -73,16 +87,21 @@
   .btn-icon.del:hover { color: var(--red); }
   .btn-icon.edit:hover { color: var(--accent); }
 
-  main { padding: 20px; max-width: 700px; margin: 0 auto; }
-
-  .customers-table { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+  /* ===== CUSTOMERS TABLE ===== */
+  .customers-table {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
   .table-header {
-    display: grid; grid-template-columns: 1fr 1fr 1fr 60px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr 50px;
     padding: 12px 16px; background: var(--surface2);
-    font-size: 13px; color: var(--text2); font-weight: 700; border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text2); font-weight: 700;
+    border-bottom: 1px solid var(--border);
   }
   .table-row {
-    display: grid; grid-template-columns: 1fr 1fr 1fr 60px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr 50px;
     padding: 14px 16px; border-bottom: 1px solid var(--border);
     align-items: center; transition: background 0.15s; cursor: pointer;
   }
@@ -99,62 +118,59 @@
   .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
   .empty-state p { font-size: 15px; }
 
+  /* ===== CUSTOMER DETAIL ===== */
   #page-customer { display: none; }
   .back-btn {
     display: inline-flex; align-items: center; gap: 6px;
     color: var(--text2); font-size: 14px; font-weight: 600;
     background: none; border: none; cursor: pointer;
-    margin-bottom: 20px; padding: 0;
+    margin-bottom: 16px; padding: 0;
     font-family: 'Tajawal', sans-serif; transition: color 0.2s;
   }
   .back-btn:hover { color: var(--accent); }
 
   .customer-header {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 18px 20px; margin-bottom: 16px;
+    border-radius: var(--radius); padding: 16px 20px; margin-bottom: 12px;
   }
   .customer-header h2 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
   .customer-header .phone { color: var(--text2); font-size: 14px; display: flex; align-items: center; gap: 6px; }
 
-  .action-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .action-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .action-buttons .btn { justify-content: center; padding: 12px 10px; font-size: 13px; }
 
   .trans-table {
     background: var(--surface); border-radius: var(--radius);
-    border: 1px solid var(--border); overflow: hidden; margin-bottom: 16px;
+    border: 1px solid var(--border); overflow: hidden; margin-bottom: 12px;
   }
   .trans-header {
-    display: grid; grid-template-columns: 90px 1fr 1fr auto;
+    display: grid; grid-template-columns: 80px 1fr 1fr auto;
     padding: 12px 16px; background: var(--surface2);
-    font-size: 13px; color: var(--text2); font-weight: 700; border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text2); font-weight: 700;
+    border-bottom: 1px solid var(--border);
   }
   .trans-row {
-    display: grid; grid-template-columns: 90px 1fr 1fr auto;
+    display: grid; grid-template-columns: 80px 1fr 1fr auto;
     padding: 12px 16px; border-bottom: 1px solid var(--border);
     align-items: center; animation: fadeIn 0.3s ease;
   }
   .trans-row:last-child { border-bottom: none; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
-
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
   .trans-row.debt-row .amount { color: #f87171; font-weight: 700; }
   .trans-row.payment-row .amount { color: var(--green); font-weight: 700; }
-  .trans-date { font-size: 13px; color: var(--text2); }
-
+  .trans-date { font-size: 12px; color: var(--text2); }
   .invoice-num {
-    font-size: 13px; font-weight: 700;
-    color: var(--accent);
+    font-size: 12px; font-weight: 700; color: var(--accent);
     background: rgba(249,115,22,0.1);
-    padding: 2px 8px; border-radius: 6px;
-    display: inline-block;
+    padding: 2px 7px; border-radius: 6px; display: inline-block;
   }
-
   .type-tag {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+    display: inline-flex; align-items: center;
+    font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
   }
   .type-debt { background: rgba(239,68,68,0.15); color: #f87171; }
   .type-payment { background: rgba(34,197,94,0.15); color: var(--green); }
-  .trans-actions { display: flex; gap: 4px; }
+  .trans-actions { display: flex; gap: 2px; }
 
   .total-bar {
     background: var(--surface); border: 1px solid var(--border);
@@ -166,6 +182,7 @@
   .total-positive { color: #f87171; }
   .total-zero { color: var(--green); }
 
+  /* ===== MODAL ===== */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     z-index: 200; display: flex; align-items: flex-end; justify-content: center;
@@ -175,7 +192,7 @@
   .modal {
     background: var(--surface); border-radius: 20px 20px 0 0;
     border: 1px solid var(--border); border-bottom: none;
-    padding: 24px 20px 36px; width: 100%; max-width: 700px;
+    padding: 24px 20px 40px; width: 100%; max-width: 700px;
     transform: translateY(100%);
     transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
   }
@@ -194,6 +211,7 @@
   .modal-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
   .modal-buttons .btn { justify-content: center; padding: 13px; }
 
+  /* ===== TOAST ===== */
   .toast {
     position: fixed; bottom: 30px; left: 50%;
     transform: translateX(-50%) translateY(20px);
@@ -203,18 +221,14 @@
     opacity: 0; transition: all 0.3s; white-space: nowrap;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  @media (max-width: 400px) {
-    .action-buttons { grid-template-columns: 1fr; }
-    .trans-header, .trans-row { grid-template-columns: 70px 1fr 1fr auto; }
-  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">
-    <div class="logo-icon">🏍️</div>
+    <img src="logo.png" style="width:40px;height:40px;border-radius:10px;object-fit:cover;" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex'">
+    <div id="logo-fallback" class="logo-icon" style="display:none">🏍️</div>
     <div>
       <div class="logo-text">Mazen Ghanoum</div>
       <div class="logo-sub">إدارة الديون</div>
@@ -222,8 +236,10 @@
   </div>
   <div style="display:flex;gap:8px;align-items:center">
     <button class="btn btn-ghost" onclick="exportData()" title="نسخة احتياطية">💾</button>
-    <label class="btn btn-ghost" title="استيراد" style="cursor:pointer;margin:0">📂<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
-    <button class="btn btn-primary" id="btn-add-customer" onclick="openAddCustomer()">+ إضافة زبون</button>
+    <label class="btn btn-ghost" title="استيراد" style="cursor:pointer;margin:0">
+      📂<input type="file" accept=".json" onchange="importData(event)" style="display:none">
+    </label>
+    <button class="btn btn-primary" id="btn-add-customer" onclick="openAddCustomer()">+ زبون</button>
   </div>
 </header>
 
@@ -232,9 +248,9 @@
   <div id="page-customers">
     <div class="customers-table">
       <div class="table-header">
-        <div>اسم الزبون</div>
-        <div>رقم الهاتف</div>
-        <div>مجمل الدين</div>
+        <div>الاسم</div>
+        <div>الهاتف</div>
+        <div>الدين</div>
         <div></div>
       </div>
       <div id="customers-list"></div>
@@ -249,8 +265,8 @@
       <div class="phone">📞 <span id="detail-phone"></span></div>
     </div>
     <div class="action-buttons">
-      <button class="btn btn-red" onclick="openAddDebt()">➕ إضافة دين</button>
-      <button class="btn btn-green" onclick="openAddPayment()">💰 إضافة دفعة</button>
+      <button class="btn btn-red" onclick="openAddDebt()">➕ دين</button>
+      <button class="btn btn-green" onclick="openAddPayment()">💰 دفعة</button>
       <button class="btn btn-whatsapp" onclick="sendWhatsApp()">📲 واتساب</button>
     </div>
     <div class="trans-table">
@@ -258,12 +274,12 @@
         <div>فاتورة</div>
         <div>التاريخ</div>
         <div>المبلغ</div>
-        <div>إجراءات</div>
+        <div></div>
       </div>
       <div id="trans-list"></div>
     </div>
     <div class="total-bar">
-      <div class="total-label">مجمل الدين</div>
+      <div class="total-label">المجمل</div>
       <div class="total-amount" id="total-amount">0</div>
     </div>
   </div>
@@ -273,7 +289,7 @@
 <div class="modal-overlay" id="modal-customer">
   <div class="modal">
     <div class="modal-handle"></div>
-    <h3 id="modal-customer-title">إضافة زبون جديد</h3>
+    <h3 id="modal-customer-title">إضافة زبون</h3>
     <div class="form-group">
       <label>اسم الزبون</label>
       <input type="text" id="input-name" placeholder="مثال: أحمد محمد">
@@ -356,7 +372,7 @@
     </div>
     <div class="modal-buttons">
       <button class="btn btn-ghost" onclick="closeModal('modal-edit')">إلغاء</button>
-      <button class="btn btn-primary" onclick="saveEdit()">حفظ التعديل</button>
+      <button class="btn btn-primary" onclick="saveEdit()">حفظ</button>
     </div>
   </div>
 </div>
@@ -384,23 +400,18 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// حساب المجمل الكلي للزبون
 function getTotal(customerId) {
   const c = data.customers.find(x => x.id === customerId);
   if (!c) return 0;
-  return (c.transactions || []).reduce((sum, t) => {
-    return t.type === 'debt' ? sum + t.amount : sum - t.amount;
-  }, 0);
+  return (c.transactions || []).reduce((sum, t) => t.type === 'debt' ? sum + t.amount : sum - t.amount, 0);
 }
 
-// حساب المتبقي لكل فاتورة (دين - دفعات على نفس الفاتورة)
 function getInvoiceBalance(transactions, invoiceNum) {
   return transactions
     .filter(t => t.invoice === invoiceNum)
     .reduce((sum, t) => t.type === 'debt' ? sum + t.amount : sum - t.amount, 0);
 }
 
-// قائمة الفواتير المفتوحة فقط (متبقي > 0)
 function getOpenInvoices(transactions) {
   const invoices = [...new Set(transactions.filter(t => t.type === 'debt').map(t => t.invoice))];
   return invoices.filter(inv => getInvoiceBalance(transactions, inv) > 0);
@@ -410,7 +421,7 @@ function getOpenInvoices(transactions) {
 function renderCustomers() {
   const list = document.getElementById('customers-list');
   if (!data.customers.length) {
-    list.innerHTML = `<div class="empty-state"><div class="icon">🏍️</div><p>لا يوجد زبائن بعد<br>اضغط "إضافة زبون" للبداية</p></div>`;
+    list.innerHTML = `<div class="empty-state"><div class="icon">🏍️</div><p>لا يوجد زبائن بعد</p></div>`;
     return;
   }
   list.innerHTML = data.customers.map(c => {
@@ -431,7 +442,7 @@ function renderCustomers() {
 
 function openAddCustomer() {
   editingCustomerId = null;
-  document.getElementById('modal-customer-title').textContent = 'إضافة زبون جديد';
+  document.getElementById('modal-customer-title').textContent = 'إضافة زبون';
   document.getElementById('input-name').value = '';
   document.getElementById('input-phone').value = '';
   openModal('modal-customer');
@@ -445,125 +456,19 @@ function saveCustomer() {
   if (editingCustomerId) {
     const c = data.customers.find(x => x.id === editingCustomerId);
     c.name = name; c.phone = phone;
-    save(); closeModal('modal-customer'); // ===== EXPORT / IMPORT =====
-function exportData() {
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  const date = new Date().toISOString().split("T")[0];
-  a.href = url;
-  a.download = "mazen-ghanoum-backup-" + date + ".json";
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast("✅ تم حفظ النسخة الاحتياطية");
-}
-
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const imported = JSON.parse(e.target.result);
-      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
-      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
-      data = imported;
-      save();
-      renderCustomers();
-      showToast("✅ تم استيراد البيانات");
-    } catch(err) {
-      showToast("⚠️ خطأ بقراءة الملف");
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = "";
-}
-
-renderCustomers();
-    showToast('✅ تم تعديل الزبون');
     editingCustomerId = null;
+    showToast('✅ تم التعديل');
   } else {
     data.customers.push({ id: genId(), name, phone, transactions: [] });
-    save(); closeModal('modal-customer'); // ===== EXPORT / IMPORT =====
-function exportData() {
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  const date = new Date().toISOString().split("T")[0];
-  a.href = url;
-  a.download = "mazen-ghanoum-backup-" + date + ".json";
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast("✅ تم حفظ النسخة الاحتياطية");
-}
-
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const imported = JSON.parse(e.target.result);
-      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
-      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
-      data = imported;
-      save();
-      renderCustomers();
-      showToast("✅ تم استيراد البيانات");
-    } catch(err) {
-      showToast("⚠️ خطأ بقراءة الملف");
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = "";
-}
-
-renderCustomers();
-    showToast('✅ تمت إضافة الزبون');
+    showToast('✅ تمت الإضافة');
   }
+  save(); closeModal('modal-customer'); renderCustomers();
 }
 
 function deleteCustomer(id) {
   if (!confirm('حذف هذا الزبون وكل ديونه؟')) return;
   data.customers = data.customers.filter(c => c.id !== id);
-  save(); // ===== EXPORT / IMPORT =====
-function exportData() {
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  const date = new Date().toISOString().split("T")[0];
-  a.href = url;
-  a.download = "mazen-ghanoum-backup-" + date + ".json";
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast("✅ تم حفظ النسخة الاحتياطية");
-}
-
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const imported = JSON.parse(e.target.result);
-      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
-      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
-      data = imported;
-      save();
-      renderCustomers();
-      showToast("✅ تم استيراد البيانات");
-    } catch(err) {
-      showToast("⚠️ خطأ بقراءة الملف");
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = "";
-}
-
-renderCustomers();
+  save(); renderCustomers();
   showToast('🗑️ تم الحذف');
 }
 
@@ -584,42 +489,7 @@ function goBack() {
   document.getElementById('page-customer').style.display = 'none';
   document.getElementById('page-customers').style.display = 'block';
   document.getElementById('btn-add-customer').style.display = 'flex';
-  // ===== EXPORT / IMPORT =====
-function exportData() {
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  const date = new Date().toISOString().split("T")[0];
-  a.href = url;
-  a.download = "mazen-ghanoum-backup-" + date + ".json";
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast("✅ تم حفظ النسخة الاحتياطية");
-}
-
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const imported = JSON.parse(e.target.result);
-      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
-      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
-      data = imported;
-      save();
-      renderCustomers();
-      showToast("✅ تم استيراد البيانات");
-    } catch(err) {
-      showToast("⚠️ خطأ بقراءة الملف");
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = "";
-}
-
-renderCustomers();
+  renderCustomers();
 }
 
 function renderTransactions() {
@@ -636,13 +506,15 @@ function renderTransactions() {
       const tag = isDebt
         ? `<span class="type-tag type-debt">دين</span>`
         : `<span class="type-tag type-payment">دفعة</span>`;
-      const invLabel = t.invoice ? `<span class="invoice-num">#${t.invoice}</span>` : '<span style="color:var(--text2);font-size:12px">—</span>';
+      const invLabel = t.invoice
+        ? `<span class="invoice-num">#${t.invoice}</span>`
+        : `<span style="color:var(--text2);font-size:12px">—</span>`;
       return `
         <div class="trans-row ${cls}">
           <div>${invLabel}</div>
           <div>
             <div class="trans-date">${formatDate(t.date)}</div>
-            <div style="margin-top:3px">${tag}</div>
+            <div style="margin-top:2px">${tag}</div>
           </div>
           <div class="amount" style="font-weight:700;font-size:15px">${sign}${t.amount}</div>
           <div class="trans-actions">
@@ -720,9 +592,9 @@ function saveEdit() {
   const c = data.customers.find(x => x.id === currentCustomerId);
   const t = c.transactions.find(x => x.id === editingTransId);
   t.invoice = invoice; t.amount = amount; t.date = date;
+  editingTransId = null;
   save(); closeModal('modal-edit'); renderTransactions();
   showToast('✅ تم التعديل');
-  editingTransId = null;
 }
 
 function deleteTrans(id) {
@@ -738,22 +610,49 @@ function sendWhatsApp() {
   const c = data.customers.find(x => x.id === currentCustomerId);
   const txs = c.transactions || [];
   const openInvoices = getOpenInvoices(txs);
-
-  if (openInvoices.length === 0) {
-    showToast('✅ الزبون ليس عليه دين');
-    return;
-  }
-
+  if (openInvoices.length === 0) { showToast('✅ الزبون ليس عليه دين'); return; }
   const total = getTotal(currentCustomerId);
-  let lines = openInvoices.map(inv => {
+  const lines = openInvoices.map(inv => {
     const bal = getInvoiceBalance(txs, inv);
     return `فاتورة رقم ${inv} - متبقي ${bal}`;
   }).join('\n');
-
   const msg = `مرحبا\n\n${lines}\n\nالمجمل: ${total}`;
   const phone = c.phone.replace(/\D/g, '');
-  const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ===== EXPORT / IMPORT =====
+function exportData() {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mazen-backup-' + today() + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ تم حفظ النسخة الاحتياطية');
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.customers) { showToast('⚠️ ملف غير صحيح'); return; }
+      if (!confirm('هاد رح يستبدل كل البيانات الحالية. تكمل؟')) return;
+      data = imported;
+      save();
+      renderCustomers();
+      showToast('✅ تم استيراد البيانات');
+    } catch(err) {
+      showToast('⚠️ خطأ بقراءة الملف');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
 }
 
 // ===== MODALS =====
@@ -771,41 +670,6 @@ document.addEventListener('keydown', e => {
     document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
   }
 });
-
-// ===== EXPORT / IMPORT =====
-function exportData() {
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  const date = new Date().toISOString().split("T")[0];
-  a.href = url;
-  a.download = "mazen-ghanoum-backup-" + date + ".json";
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast("✅ تم حفظ النسخة الاحتياطية");
-}
-
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const imported = JSON.parse(e.target.result);
-      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
-      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
-      data = imported;
-      save();
-      renderCustomers();
-      showToast("✅ تم استيراد البيانات");
-    } catch(err) {
-      showToast("⚠️ خطأ بقراءة الملف");
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = "";
-}
 
 renderCustomers();
 </script>
