@@ -338,10 +338,6 @@
     <div class="modal-handle"></div>
     <h3>إضافة دفعة</h3>
     <div class="form-group">
-      <label>رقم الفاتورة</label>
-      <input type="text" id="input-payment-invoice" placeholder="مثال: 1042">
-    </div>
-    <div class="form-group">
       <label>المبلغ المدفوع</label>
       <input type="number" id="input-payment" placeholder="مثال: 20">
     </div>
@@ -361,7 +357,7 @@
   <div class="modal">
     <div class="modal-handle"></div>
     <h3>تعديل</h3>
-    <div class="form-group">
+    <div class="form-group" id="edit-invoice-group">
       <label>رقم الفاتورة</label>
       <input type="text" id="input-edit-invoice" placeholder="رقم الفاتورة">
     </div>
@@ -564,13 +560,11 @@ function openAddPayment() {
 }
 
 function savePayment() {
-  const invoice = document.getElementById('input-payment-invoice').value.trim();
   const amount = parseFloat(document.getElementById('input-payment').value);
   const date = document.getElementById('input-payment-date').value;
-  if (!invoice) { showToast('⚠️ أدخل رقم الفاتورة'); return; }
   if (!amount || amount <= 0) { showToast('⚠️ أدخل مبلغ صحيح'); return; }
   const c = data.customers.find(x => x.id === currentCustomerId);
-  c.transactions.push({ id: genId(), type: 'payment', invoice, amount, date });
+  c.transactions.push({ id: genId(), type: 'payment', amount, date });
   save(); closeModal('modal-payment'); renderTransactions();
   showToast('✅ تمت إضافة الدفعة');
 }
@@ -580,7 +574,14 @@ function openEditTrans(id) {
   const c = data.customers.find(x => x.id === currentCustomerId);
   const t = c.transactions.find(x => x.id === id);
   editingTransId = id;
-  document.getElementById('input-edit-invoice').value = t.invoice || '';
+  const invoiceGroup = document.getElementById('edit-invoice-group');
+  if (t.type === 'debt') {
+    invoiceGroup.style.display = 'block';
+    document.getElementById('input-edit-invoice').value = t.invoice || '';
+  } else {
+    invoiceGroup.style.display = 'none';
+    document.getElementById('input-edit-invoice').value = '';
+  }
   document.getElementById('input-edit-amount').value = t.amount;
   document.getElementById('input-edit-date').value = t.date;
   openModal('modal-edit');
@@ -590,11 +591,12 @@ function saveEdit() {
   const invoice = document.getElementById('input-edit-invoice').value.trim();
   const amount = parseFloat(document.getElementById('input-edit-amount').value);
   const date = document.getElementById('input-edit-date').value;
-  if (!invoice) { showToast('⚠️ أدخل رقم الفاتورة'); return; }
   if (!amount || amount <= 0) { showToast('⚠️ أدخل مبلغ صحيح'); return; }
   const c = data.customers.find(x => x.id === currentCustomerId);
   const t = c.transactions.find(x => x.id === editingTransId);
-  t.invoice = invoice; t.amount = amount; t.date = date;
+  if (t.type === 'debt' && !invoice) { showToast('⚠️ أدخل رقم الفاتورة'); return; }
+  if (t.type === 'debt') t.invoice = invoice;
+  t.amount = amount; t.date = date;
   editingTransId = null;
   save(); closeModal('modal-edit'); renderTransactions();
   showToast('✅ تم التعديل');
@@ -612,14 +614,25 @@ function deleteTrans(id) {
 function sendWhatsApp() {
   const c = data.customers.find(x => x.id === currentCustomerId);
   const txs = c.transactions || [];
-  const openInvoices = getOpenInvoices(txs);
-  if (openInvoices.length === 0) { showToast('✅ الزبون ليس عليه دين'); return; }
+  const debts = txs.filter(t => t.type === 'debt');
+  const payments = txs.filter(t => t.type === 'payment');
   const total = getTotal(currentCustomerId);
-  const lines = openInvoices.map(inv => {
-    const bal = getInvoiceBalance(txs, inv);
-    return `فاتورة رقم ${inv} - متبقي ${bal}`;
-  }).join('\n');
-  const msg = `مرحبا\n\n${lines}\n\nالمجمل: ${total}`;
+  if (total <= 0) { showToast('✅ الزبون ليس عليه دين'); return; }
+
+  let msg = 'مرحبا\n';
+
+  if (debts.length) {
+    msg += '\nالفواتير:\n';
+    msg += debts.map(t => `- فاتورة ${t.invoice} | ${formatDate(t.date)} | ${t.amount}`).join('\n');
+  }
+
+  if (payments.length) {
+    msg += '\n\nالدفعات:\n';
+    msg += payments.map(t => `- ${formatDate(t.date)} | ${t.amount}`).join('\n');
+  }
+
+  msg += `\n\nالمتبقي: ${total}`;
+
   const phone = c.phone.replace(/\D/g, '');
   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
 }
