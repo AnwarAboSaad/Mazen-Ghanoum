@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="apple-touch-icon" href="logo.png">
 <title>Mazen Ghanoum - إدارة الديون</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -214,13 +213,17 @@
 
 <header>
   <div class="logo">
-    <img src="logo.png" style="width:40px;height:40px;border-radius:10px;object-fit:cover;">
+    <div class="logo-icon">🏍️</div>
     <div>
       <div class="logo-text">Mazen Ghanoum</div>
       <div class="logo-sub">إدارة الديون</div>
     </div>
   </div>
-  <button class="btn btn-primary" id="btn-add-customer" onclick="openAddCustomer()">+ إضافة زبون</button>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn btn-ghost" onclick="exportData()" title="نسخة احتياطية">💾</button>
+    <label class="btn btn-ghost" title="استيراد" style="cursor:pointer;margin:0">📂<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
+    <button class="btn btn-primary" id="btn-add-customer" onclick="openAddCustomer()">+ إضافة زبون</button>
+  </div>
 </header>
 
 <main>
@@ -441,12 +444,82 @@ function saveCustomer() {
   if (editingCustomerId) {
     const c = data.customers.find(x => x.id === editingCustomerId);
     c.name = name; c.phone = phone;
-    save(); closeModal('modal-customer'); renderCustomers();
+    save(); closeModal('modal-customer'); // ===== EXPORT / IMPORT =====
+function exportData() {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const date = new Date().toISOString().split("T")[0];
+  a.href = url;
+  a.download = "mazen-ghanoum-backup-" + date + ".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("✅ تم حفظ النسخة الاحتياطية");
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
+      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
+      data = imported;
+      save();
+      renderCustomers();
+      showToast("✅ تم استيراد البيانات");
+    } catch(err) {
+      showToast("⚠️ خطأ بقراءة الملف");
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
+
+renderCustomers();
     showToast('✅ تم تعديل الزبون');
     editingCustomerId = null;
   } else {
     data.customers.push({ id: genId(), name, phone, transactions: [] });
-    save(); closeModal('modal-customer'); renderCustomers();
+    save(); closeModal('modal-customer'); // ===== EXPORT / IMPORT =====
+function exportData() {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const date = new Date().toISOString().split("T")[0];
+  a.href = url;
+  a.download = "mazen-ghanoum-backup-" + date + ".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("✅ تم حفظ النسخة الاحتياطية");
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
+      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
+      data = imported;
+      save();
+      renderCustomers();
+      showToast("✅ تم استيراد البيانات");
+    } catch(err) {
+      showToast("⚠️ خطأ بقراءة الملف");
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
+
+renderCustomers();
     showToast('✅ تمت إضافة الزبون');
   }
 }
@@ -454,7 +527,42 @@ function saveCustomer() {
 function deleteCustomer(id) {
   if (!confirm('حذف هذا الزبون وكل ديونه؟')) return;
   data.customers = data.customers.filter(c => c.id !== id);
-  save(); renderCustomers();
+  save(); // ===== EXPORT / IMPORT =====
+function exportData() {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const date = new Date().toISOString().split("T")[0];
+  a.href = url;
+  a.download = "mazen-ghanoum-backup-" + date + ".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("✅ تم حفظ النسخة الاحتياطية");
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
+      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
+      data = imported;
+      save();
+      renderCustomers();
+      showToast("✅ تم استيراد البيانات");
+    } catch(err) {
+      showToast("⚠️ خطأ بقراءة الملف");
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
+
+renderCustomers();
   showToast('🗑️ تم الحذف');
 }
 
@@ -475,7 +583,42 @@ function goBack() {
   document.getElementById('page-customer').style.display = 'none';
   document.getElementById('page-customers').style.display = 'block';
   document.getElementById('btn-add-customer').style.display = 'flex';
-  renderCustomers();
+  // ===== EXPORT / IMPORT =====
+function exportData() {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const date = new Date().toISOString().split("T")[0];
+  a.href = url;
+  a.download = "mazen-ghanoum-backup-" + date + ".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("✅ تم حفظ النسخة الاحتياطية");
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
+      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
+      data = imported;
+      save();
+      renderCustomers();
+      showToast("✅ تم استيراد البيانات");
+    } catch(err) {
+      showToast("⚠️ خطأ بقراءة الملف");
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
+
+renderCustomers();
 }
 
 function renderTransactions() {
@@ -627,6 +770,41 @@ document.addEventListener('keydown', e => {
     document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
   }
 });
+
+// ===== EXPORT / IMPORT =====
+function exportData() {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const date = new Date().toISOString().split("T")[0];
+  a.href = url;
+  a.download = "mazen-ghanoum-backup-" + date + ".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("✅ تم حفظ النسخة الاحتياطية");
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.customers) { showToast("⚠️ ملف غير صحيح"); return; }
+      if (!confirm("هاد رح يستبدل كل البيانات الحالية. تكمل؟")) return;
+      data = imported;
+      save();
+      renderCustomers();
+      showToast("✅ تم استيراد البيانات");
+    } catch(err) {
+      showToast("⚠️ خطأ بقراءة الملف");
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
 
 renderCustomers();
 </script>
