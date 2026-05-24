@@ -613,25 +613,21 @@ function deleteTrans(id) {
 function sendWhatsApp() {
   const c = data.customers.find(x => x.id === currentCustomerId);
   const txs = c.transactions || [];
-  const debts = txs.filter(t => t.type === 'debt');
-  const payments = txs.filter(t => t.type === 'payment');
   const total = getTotal(currentCustomerId);
   if (total <= 0) { showToast('✅ الزبون ليس عليه دين'); return; }
 
-  let msg = 'مرحبا\n';
+  // رتب كل الحركات حسب التاريخ
+  const sorted = [...txs].sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  if (debts.length) {
-    msg += '\nالفواتير:\n';
-    msg += debts.map(t => `- فاتورة ${t.invoice} | ${formatDate(t.date)} | ${t.amount}`).join('\n');
-  }
+  const lines = sorted.map(t => {
+    if (t.type === 'debt') {
+      return `${formatDate(t.date)} | فاتورة ${t.invoice} | ${t.amount}`;
+    } else {
+      return `${formatDate(t.date)} | دفعة | ${t.amount}`;
+    }
+  }).join('\n');
 
-  if (payments.length) {
-    msg += '\n\nالدفعات:\n';
-    msg += payments.map(t => `- ${formatDate(t.date)} | ${t.amount}`).join('\n');
-  }
-
-  msg += `\n\nالمتبقي: ${total}`;
-
+  const msg = `مرحبا\n\n${lines}\n\nالمتبقي: ${total}`;
   const phone = c.phone.replace(/\D/g, '');
   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
 }
