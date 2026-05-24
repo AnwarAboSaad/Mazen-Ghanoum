@@ -552,11 +552,10 @@ function saveDebt() {
 
 // ===== ADD PAYMENT =====
 function openAddPayment() {
-  document.getElementById('input-payment-invoice').value = '';
   document.getElementById('input-payment').value = '';
   document.getElementById('input-payment-date').value = today();
   openModal('modal-payment');
-  setTimeout(() => document.getElementById('input-payment-invoice').focus(), 350);
+  setTimeout(() => document.getElementById('input-payment').focus(), 350);
 }
 
 function savePayment() {
