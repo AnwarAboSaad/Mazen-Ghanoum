@@ -638,7 +638,13 @@ function sendWhatsApp() {
   const c = data.customers.find(x => x.id === currentCustomerId);
   const txs = c.transactions || [];
   const total = getTotal(currentCustomerId);
-  if (total <= 0) { showToast('✅ الزبون ليس عليه دين'); return; }
+  if (total <= 0) {
+    const c2 = data.customers.find(x => x.id === currentCustomerId);
+    const phone2 = c2.phone.replace(/\D/g, '');
+    const msg2 = 'مرحبا\nصار حسابك 0 ✅';
+    window.open(`https://wa.me/${phone2}?text=${encodeURIComponent(msg2)}`, '_blank');
+    return;
+  }
 
   // آخر 10 عمليات أُضيفت، مرتبة حسب التاريخ للعرض
   const last10 = txs.slice(-10).sort((a, b) => new Date(a.date) - new Date(b.date));
