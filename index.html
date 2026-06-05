@@ -641,7 +641,9 @@ function sendWhatsApp() {
   if (total <= 0) {
     const c2 = data.customers.find(x => x.id === currentCustomerId);
     const phone2 = c2.phone.replace(/\D/g, '');
-    const msg2 = 'مرحبا\nصار حسابك 0 ✅';
+    const msg2 = total === 0
+      ? 'مرحبا\nصار حسابك 0 ✅'
+      : `مرحبا\nعندك رصيد لديك ${Math.abs(total)} ✅`;
     window.open(`https://wa.me/${phone2}?text=${encodeURIComponent(msg2)}`, '_blank');
     return;
   }
